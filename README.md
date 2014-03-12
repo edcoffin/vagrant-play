@@ -55,8 +55,6 @@ To get a simple Play application up and running one might do the following:
 
 `/util/pvm` - home for [pvm](https://github.com/kaiinkinen/pvm). Play versions are stored on your host system and are not destroyed with the box.
 
-`/log` - accessible from /vagrant_log or /vagrant/log - log storage
-
 ## Usage
 
 This provides a unified development environment that can be shared amongst team members. You will likely continue to write code on your host machine, using which ever tools you normally do. I also keeping your source control workflow on the host machine.
