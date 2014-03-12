@@ -22,26 +22,39 @@ Dev box built on Ubuntu 12.04LTS with:
 * run the following commands:
 
 `$ git submodule init`
+
 `$ git submodule update`
+
 `$ vagrant plugin install vagrant-librarian-chef-nochef`
+
 `$ vagrant up` 	Gets base image, provisions it. See Vagrant documention for more info!
 
 To get a simple Play application up and running one might do the following:
 
 `$ vagrant ssh`	Login into box
+
 `$ > pvm ls` List versions of play installed
+
 `$ > pvm install 2.2.1` Install a version of Play, sets as default.
+
 `$ > cd /projects` Shared folder for projects
+
 `$ > play new Hello`	Create new Play project
+
 `$ > play run`	Visit app using host browser @ localhost:9001
+
 `$ > exit` Exit VM SSH session
 
 ## Structure
 
 `/chef/Cheffile` - defines the cookbooks chef_solo uses during provisioning
+
 `/VagrantFile` - defines the Vagrant box: networking, scripts, and chef provisioning.
+
 `/projects` - Store your Play projects here
+
 `/util/pvm` - home for [pvm](https://github.com/kaiinkinen/pvm). Play versions are stored on your host system and are not destroyed with the box.
+
 `/log` - accessible from /vagrant_log or /vagrant/log - log storage
 
 ## Usage
