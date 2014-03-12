@@ -25,9 +25,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # play
   config.vm.network :forwarded_port, guest: 9000, host: 9001
   # postgres
-  config.vm.network :forwarded_port, guest: 5432, host: 9002
+  #config.vm.network :forwarded_port, guest: 5432, host: 9002
   # mongo
-  config.vm.network :forwarded_port, guest: 27017, host: 9003
+  #config.vm.network :forwarded_port, guest: 27017, host: 9003
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -53,6 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # upgrade the chef install that comes on the base box
   config.vm.provision :shell, :inline => "gem install chef --version 11.4.2 --no-rdoc --no-ri --conservative"
+  config.vm.provision :shell, :inline => "apt-get -y install unzip"
   
   config.librarian_chef.cheffile_dir = "chef"
     
@@ -79,9 +80,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       }
     }
 
-    #chef.add_recipe "apt::default"
+    chef.add_recipe "apt::default"
     chef.add_recipe "git"
-    #chef.add_recipe "java::default"
+    chef.add_recipe "curl"
+    chef.add_recipe "java::default"
     #chef.add_recipe "postgresql" 
     #chef.add_recipe "postgresql::server"  
     #chef.add_recipe "vim"  
