@@ -25,9 +25,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # play
   config.vm.network :forwarded_port, guest: 9000, host: 9001
   # postgres
-  #config.vm.network :forwarded_port, guest: 5432, host: 9002
+  config.vm.network :forwarded_port, guest: 5432, host: 9002
   # mongo
-  #config.vm.network :forwarded_port, guest: 27017, host: 9003
+  config.vm.network :forwarded_port, guest: 27017, host: 9003
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -43,10 +43,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Default value: false
   config.ssh.forward_agent = true
   
-  config.vm.synced_folder "./projects", "/projects"
+  config.vm.synced_folder "./projects", "/projects", :nfs => true
+
+  # experimental
+  # config.vm.synced_folder "./projects", "/projects", type: "rsync",
+  #   rsync__exclude: [".git/", "./util/"]
 
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
   end
 
   # upgrade the chef install that comes on the base box
@@ -74,7 +78,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         'config' => {
           'ssl' => false,
           'listen_addresses' => '*'
-        }
+        },
+        'pg_hba' => [
+          {:type => 'host', :db => 'all', :user => 'all', :addr => '0.0.0.0/0', :method => 'md5'}
+          ]
+      },
+      "mongodb" => {
+        "package_version" =>"2.0.9"
       }
     }
 
@@ -82,10 +92,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "git"
     chef.add_recipe "curl"
     chef.add_recipe "java::default"
-    #chef.add_recipe "postgresql" 
-    #chef.add_recipe "postgresql::server"  
-    #chef.add_recipe "vim"  
-
+    chef.add_recipe "postgresql" 
+    chef.add_recipe "postgresql::server"  
+    chef.add_recipe "vim"
+    chef.add_recipe "mongodb::10gen_repo"  
+    chef.add_recipe "mongodb"
+    
   end
     
   config.vm.provision "shell", path: "scripts/postinstall.sh"

@@ -1,8 +1,9 @@
 # Final touches!
 
-printf "%s\n" "source /vagrant/util/pvm/pvm.sh" >> /home/vagrant/.bashrc
-# source ~/utils/pvm/pvm.sh
-# pvm install 2.2.1
-# pvm install 2.1.3
-# pvm alias default 2.2.1
+mkdir -p /usr/local/util
+cp -r /vagrant/util/pvm /usr/local/util 
+chown -R vagrant:vagrant /usr/local/util/pvm
+
+printf "%s\n" "source /usr/local/util/pvm/pvm.sh" >> /home/vagrant/.bashrc
+
 exit
