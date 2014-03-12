@@ -1,0 +1,6 @@
+.*
+
+!\.gitignore
+
+chef/tmp
+chef/Cheffile.lock
