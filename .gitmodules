@@ -1,3 +1,0 @@
-[submodule "util/pvm"]
-	path = util/pvm
-	url = git@github.com:kaiinkinen/pvm.git
